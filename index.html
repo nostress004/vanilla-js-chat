@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="/index.css" />
+    <title>Socket IO Client</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">Chat</header>
+      <main class="page-body">
+        <ul class="message-list" id="message-list">
+        </ul>
+      </main>
+      <div class="page-footer">
+        <form class="form" id="form">
+          <input class="toolbar-item-sm" type="text" value="Guest" id = "username-input" />
+          <input
+            class="toolbar-item-lg"
+            type="text"
+            placeholder="Type here to chat"
+            id="message-input"
+          />
+          <input class="toolbar-item-sm" id="send-button" type="submit" value="Send">
+        </form>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js""></script>
+    <script>
+      let socket = io('http://35.157.80.184:8080/');
+      socket.on('message', function(data) {
+        let ul = document.getElementById("message-list");
+        let li = document.createElement("li");
+        let currentUser = document.getElementById("username-input").value;
+        let messageType = "incoming-message";
+        let message = `${data.user}: ${data.message}`;
+
+        if (data.user === currentUser) {
+          messageType = "outgoing-message";
+          message = `${data.message}`;
+        }
+
+        li.setAttribute("class", messageType);
+        li.appendChild(document.createTextNode(message));
+        ul.appendChild(li);
+      });
+
+      let form = document.getElementById("form");
+      form.addEventListener('submit', sendMessage);
+
+      function sendMessage(event) {
+        event.preventDefault();
+        let messageInput = document.getElementById("message-input");
+        let userName = document.getElementById("username-input");
+
+        if (messageInput.value) {
+          socket.emit('message', {message: messageInput.value, user: userName.value});
+          messageInput.value = '';
+        }
+      }
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+.container {
+  margin-left: 30%;
+  margin-right: 30%;
+  color: red;
+  background-color: lightgray;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  flex-shrink: 0;
+  background-color: blue;
+  text-align: center;
+}
+.page-footer {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.toolbar-item-lg {
+  flex: 6;
+  margin: 4px;
+}
+
+.toolbar-item-sm {
+  flex: 2;
+  margin: 4px;
+}
+
+.page-body {
+  flex-grow: 1;
+  overflow: auto;
+  height: 400px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.incoming-message {
+  list-style: none;
+  margin: 4px;
+  width: 90%;
+}
+.outgoing-message {
+  text-align: right;
+  margin: 4px;
+  list-style: none;
+  width: 90%;
+}
